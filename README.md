@@ -2,6 +2,7 @@
 **March 26, 2024**
 
 In order to start this project, I've first started reading Reinforcement Learning: An Introduction. I plan to only go through the following chapters:  
+  
 Chapter 2: Multi-Armed Bandits  
 Chapter 3: Finite Markov Decision Process  
 Chapter 5: Monte Carlos Methods  
