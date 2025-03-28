@@ -11,3 +11,7 @@ Chapter 8: Planning and Learning with Tabular Methods
 Chapter 9 & 10: On-Policy Prediction and Control with Approximation  
   
 Currently, I've worked through chapter 2 and have done research into how I can implement this bot.
+
+**March 27, 2024**
+
+Although there are a lot of different gym environments, I wanted to be able to use this bot to participate in multiplayer games. This means that I will use PyAutoGUI in order to screenshot games online and simulate keystrokes. I want to take into account the hold piece and the next pieces as well as the game board so I screenshot that entire region. Other than that, I set up the environment and am moving on to reading chapter 3.
