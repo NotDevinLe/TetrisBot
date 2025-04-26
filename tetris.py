@@ -73,6 +73,7 @@ class Tetris:
         self.canHold = True
 
         self.font = pygame.font.SysFont("Arial", 24, bold=True)
+        self.lock_start_time = None
     
     def check_collision_left(self):
         shape = self.curr[0]
@@ -195,6 +196,8 @@ class Tetris:
 
         # If no collision, apply rotation
         self.curr[0] = rotated
+        if self.check_collision_bottom():
+            self.lock_start_time = pygame.time.get_ticks()
 
     def play_step(self):
         for event in pygame.event.get():
@@ -205,9 +208,13 @@ class Tetris:
                 if event.key == pygame.K_LEFT:
                     if self.check_collision_left():
                         self.currPos = [self.currPos[0] - 1, self.currPos[1]]
+                        if self.check_collision_bottom():
+                            self.lock_start_time = pygame.time.get_ticks()
                 elif event.key == pygame.K_RIGHT:
                     if self.check_collision_right():
                         self.currPos = [self.currPos[0] + 1, self.currPos[1]]
+                        if self.check_collision_bottom():
+                            self.lock_start_time = pygame.time.get_ticks()
                 elif event.key == pygame.K_DOWN:
                     if self.check_collision_bottom():
                         self.set_piece()
@@ -230,10 +237,15 @@ class Tetris:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_fall_time > self.fall_interval:
             if self.check_collision_bottom():
-                self.set_piece()
-                self.spawn_new_piece()
+                if self.lock_start_time is None:
+                    self.lock_start_time = pygame.time.get_ticks()
+                elif pygame.time.get_ticks() - self.lock_start_time >= 500:
+                    self.set_piece()
+                    self.spawn_new_piece()
+                    self.lock_start_time = None
             else:
                 self.currPos[1] += 1
+                self.lock_start_time = None
             self.last_fall_time = current_time
 
         game.update_ui(self.curr, self.currPos)
